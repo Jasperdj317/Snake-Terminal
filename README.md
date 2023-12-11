@@ -1,1 +1,2 @@
-# Snake-Terminal
+Don't forget to:
+pip install windows-curses
