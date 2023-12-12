@@ -39,11 +39,11 @@ class Field:
         self._clear_field()
 
 
-        # Render snake on the field
+        
         for i, j in self.snake_coords:
             self.field[i][j] = 1
 
-        # Mark head
+        
         head = self.snake_coords[-1]
         self.field[head[0]][head[1]] = 2
 
@@ -74,12 +74,12 @@ class Snake:
         self.name = name
         self.direction = curses.KEY_RIGHT
 
-        # Init basic coords
+        
         self.coords = [[0, 0], [0, 1], [0, 2], [0, 3]]
         
     def set_direction(self, ch):
 
-        # Check if wrong direction
+        
         if ch == curses.KEY_LEFT and self.direction == curses.KEY_RIGHT:
             return
         if ch == curses.KEY_RIGHT and self.direction == curses.KEY_LEFT:
@@ -92,7 +92,7 @@ class Snake:
         self.direction = ch
 
     def level_up(self):
-        # get last point direction
+        
         a = self.coords[0]
         b = self.coords[1]
 
@@ -116,7 +116,7 @@ class Snake:
         return head not in snake_body
 
     def _check_limit(self, point):
-        # Check field limit
+        
         if point[0] > self.field.size-1:
             point[0] = 0
         elif point[0] < 0:
@@ -129,10 +129,10 @@ class Snake:
         return point
 
     def move(self):
-        # Determine head coords
+        
         head = self.coords[-1][:]
 
-        # Calc new head coords
+        
         if self.direction == curses.KEY_UP:
             head[0]-=1
         elif self.direction == curses.KEY_DOWN:
@@ -142,7 +142,7 @@ class Snake:
         elif self.direction == curses.KEY_LEFT:
             head[1]-=1
 
-        # Check field limit
+        
         head = self._check_limit(head)
 
         del(self.coords[0])
@@ -153,7 +153,7 @@ class Snake:
             sys.exit()
 
 
-        # check if snake eat an entity
+        
         if self.field.is_snake_eat_entity():
             curses.beep()
             self.level_up()
@@ -167,25 +167,25 @@ class Snake:
 
 
 def main(screen):
-    # Configure screen
+    
     screen.timeout(0)
 
-    # Init snake & field
+    
     field = Field(10)
     snake = Snake("Joe")
     snake.set_field(field)
 
     while(True):
-        # Get last pressed key
+        
         ch = screen.getch()
         if ch != -1:
-            # If some arrows did pressed - change direction
+            
             snake.set_direction(ch)
 
-        # Move snake
+        
         snake.move()
         
-        # Render field
+        
         field.render(screen)
         screen.refresh()
         
